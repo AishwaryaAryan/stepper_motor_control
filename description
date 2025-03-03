@@ -1,0 +1,31 @@
+ IoT-Based Health Monitoring System using ESP8266 & Blynk
+Overview
+This project integrates ESP8266, MAX30100, DHT11, and MQ2 Gas Sensor to create a real-time health monitoring system. The collected data is sent to the Blynk app, allowing remote monitoring of vital parameters.
+
+Features
+✅ Heart Rate & SpO2 Monitoring (MAX30100)
+✅ Temperature & Humidity Detection (DHT11)
+✅ Air Quality Monitoring (MQ2 Gas Sensor)
+✅ Blynk App Integration for Remote Monitoring
+
+🛠 Components Required
+ESP8266 NodeMCU
+MAX30100 Pulse Oximeter Sensor
+DHT11 Temperature & Humidity Sensor
+MQ2 Gas Sensor
+Jumper Wires
+🔌 Circuit Connections
+Component	ESP8266 Pin
+MAX30100 INT	D3
+DHT11 Sensor	D4
+MQ2 Sensor	A0
+
+🚀 How to Use
+1️⃣ Connect all components as per the circuit diagram.
+2️⃣ Upload the code to ESP8266 using Arduino IDE.
+3️⃣ Open the Blynk app, set up the virtual pins, and monitor data remotely.
+
+🔗 Applications
+✅ Remote Health Monitoring
+✅ IoT-based Smart Healthcare
+✅ Real-time Air Quality Tracking
