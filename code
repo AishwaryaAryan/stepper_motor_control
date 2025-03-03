@@ -1,0 +1,80 @@
+#define BLYNK_TEMPLATE_ID "TMPL3app5pBHj"
+#define BLYNK_TEMPLATE_NAME "Aishwarya Aryan"
+#define BLYNK_AUTH_TOKEN "cUeQycuErBgF-PZ2NByT4BtnOQoj2DzF"
+
+#include <AccelStepper.h>
+#include <BlynkSimpleEsp8266.h>
+
+const char auth[] = BLYNK_AUTH_TOKEN;  
+const char ssid[] = "Realme P1";   
+const char pass[] = "12345678";   
+
+const int stepsPerRevolution = 2048;  
+
+// ULN2003 Motor Driver Pins
+#define IN1 5   // D1
+#define IN2 4   // D2
+#define IN3 14  // D5
+#define IN4 12  // D6
+
+// Blynk virtual pins
+#define buttonClockwisePin V1
+#define buttonCounterclockwisePin V2
+#define speedControlPin V3   // Speed slider
+
+int motorSpeed = 500;  // Default speed
+
+// Initialize stepper library
+AccelStepper stepper(AccelStepper::HALF4WIRE, IN1, IN3, IN2, IN4);
+
+void setup() {
+  Serial.begin(115200);
+  Blynk.begin(auth, ssid, pass);
+
+  stepper.setMaxSpeed(1000);  // Maximum speed
+  stepper.setAcceleration(200);
+}
+
+void loop() {
+  Blynk.run();
+  stepper.runSpeed();
+}
+
+// Clockwise button
+BLYNK_WRITE(buttonClockwisePin) {
+  int state = param.asInt();
+  if (state == HIGH) {
+    stepper.setSpeed(motorSpeed);  
+    stepper.enableOutputs();
+    Serial.println("Clockwise Rotation");
+  } else {
+    stopMotor();
+  }
+}
+
+// Counterclockwise button
+BLYNK_WRITE(buttonCounterclockwisePin) {
+  int state = param.asInt();
+  if (state == HIGH) {
+    stepper.setSpeed(-motorSpeed);  
+    stepper.enableOutputs();
+    Serial.println("Counterclockwise Rotation");
+  } else {
+    stopMotor();
+  }
+}
+
+// Speed slider (0-100)
+BLYNK_WRITE(speedControlPin) {
+  int speedValue = param.asInt();  
+  motorSpeed = map(speedValue, 0, 100, 100, 1000);  // Map to range (100-1000)
+  Serial.print("Speed Set: ");
+  Serial.println(motorSpeed);
+}
+
+// Function to stop the motor
+void stopMotor() {
+  stepper.setSpeed(0);
+  stepper.disableOutputs();
+  Serial.println("Motor Stopped");
+}
